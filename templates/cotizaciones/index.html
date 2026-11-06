@@ -1,0 +1,113 @@
+{% extends "base.html" %}
+
+{% block titulo %}Gestión de cotizaciones - Alumcris{% endblock %}
+
+{% block contenido %}
+
+<div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-4">
+    <div>
+        <h1 class="fw-bold">Gestión de cotizaciones</h1>
+        <p class="text-body-secondary mb-0">
+            Solicitudes registradas: {{ cotizaciones|length }}
+        </p>
+    </div>
+
+    <div class="d-flex gap-2 flex-wrap">
+        <a href="{% url 'crear_cotizacion' %}" class="btn btn-primary">
+            Nueva cotización
+        </a>
+        <a href="{% url 'panel' %}" class="btn btn-outline-secondary">
+            Volver al panel
+        </a>
+    </div>
+</div>
+
+<div class="table-responsive bg-white rounded shadow-sm">
+    <table class="table table-bordered table-hover align-middle mb-0">
+
+        <thead class="table-dark">
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Cliente</th>
+                <th scope="col">Teléfono</th>
+                <th scope="col">Producto</th>
+                <th scope="col">Ancho</th>
+                <th scope="col">Alto</th>
+                <th scope="col">Cantidad</th>
+                <th scope="col">Superficie</th>
+                <th scope="col">Estado</th>
+                <th scope="col">Fecha</th>
+                <th scope="col">Acciones</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for cotizacion in cotizaciones %}
+                <tr>
+                    <td>{{ cotizacion.id }}</td>
+                    <td>{{ cotizacion.nombre_cliente }}</td>
+                    <td>{{ cotizacion.telefono }}</td>
+                    <td>{{ cotizacion.producto.nombre }}</td>
+                    <td class="text-nowrap">{{ cotizacion.ancho }} cm</td>
+                    <td class="text-nowrap">{{ cotizacion.alto }} cm</td>
+                    <td>{{ cotizacion.cantidad }}</td>
+                    <td class="text-nowrap">{{ cotizacion.superficie_total }} m²</td>
+
+                    <td>
+                        {% if cotizacion.estado == "Pendiente" %}
+                            <span class="badge text-bg-warning">Pendiente</span>
+                        {% elif cotizacion.estado == "En revision" %}
+                            <span class="badge text-bg-info">En revisión</span>
+                        {% elif cotizacion.estado == "Aprobada" %}
+                            <span class="badge text-bg-success">Aprobada</span>
+                        {% elif cotizacion.estado == "Rechazada" %}
+                            <span class="badge text-bg-danger">Rechazada</span>
+                        {% else %}
+                            <span class="badge text-bg-secondary">
+                                {{ cotizacion.estado }}
+                            </span>
+                        {% endif %}
+                    </td>
+
+                    <td class="text-nowrap">
+                        {{ cotizacion.fecha_solicitud|date:"d/m/Y H:i" }}
+                    </td>
+
+                    <td>
+                        <div class="d-grid gap-2">
+                            <a
+                                href="{% url 'editar_cotizacion' cotizacion.id %}"
+                                class="btn btn-warning btn-sm"
+                            >
+                                Editar
+                            </a>
+
+                            <a
+                                href="{% url 'cambiar_estado' cotizacion.id %}"
+                                class="btn btn-primary btn-sm text-nowrap"
+                            >
+                                Cambiar estado
+                            </a>
+
+                            <a
+                                href="{% url 'eliminar_cotizacion' cotizacion.id %}"
+                                class="btn btn-danger btn-sm"
+                            >
+                                Eliminar
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="11" class="text-center p-4">
+                        No hay cotizaciones registradas.
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+
+    </table>
+</div>
+
+{% endblock %}

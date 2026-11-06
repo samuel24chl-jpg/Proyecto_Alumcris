@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+
+{% block titulo %}Acceso administrador - Alumcris{% endblock %}
+
+{% block contenido %}
+
+<div class="row justify-content-center my-5">
+    <div class="col-md-8 col-lg-5">
+
+        <section class="card border-0 shadow-sm">
+            <div class="card-body p-4 p-md-5">
+
+                <h1 class="h3 text-primary fw-bold mb-3">
+                    Acceso administrador
+                </h1>
+
+                <p class="text-body-secondary">
+                    Ingresa con tu cuenta autorizada para gestionar
+                    productos y cotizaciones.
+                </p>
+
+                {% if form.errors %}
+                    <div class="alert alert-danger" role="alert">
+                        No fue posible ingresar. Revisa tus credenciales
+                        y que tu cuenta tenga acceso administrativo.
+                    </div>
+                {% endif %}
+
+                <form method="post" action="{% url 'ingresar' %}">
+                    {% csrf_token %}
+
+                    <input type="hidden" name="next" value="{{ next }}">
+
+                    <div class="mb-3">
+                        <label for="id_username" class="form-label">
+                            Usuario
+                        </label>
+                        <input
+                            type="text"
+                            name="username"
+                            id="id_username"
+                            class="form-control"
+                            value="{{ form.username.value|default_if_none:'' }}"
+                            autocomplete="username"
+                            maxlength="150"
+                            required
+                            autofocus
+                        >
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="id_password" class="form-label">
+                            Contraseña
+                        </label>
+                        <input
+                            type="password"
+                            name="password"
+                            id="id_password"
+                            class="form-control"
+                            autocomplete="current-password"
+                            required
+                        >
+                    </div>
+
+                    <button type="submit" class="btn btn-primary w-100">
+                        Ingresar
+                    </button>
+                </form>
+
+                <a href="{% url 'inicio' %}" class="d-block text-center mt-3">
+                    Volver al inicio
+                </a>
+
+            </div>
+        </section>
+
+    </div>
+</div>
+
+{% endblock %}

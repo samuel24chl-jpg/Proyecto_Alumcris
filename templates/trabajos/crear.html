@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block titulo %}Agregar trabajo - Alumcris{% endblock %}
+
+{% block contenido %}
+
+<div class="row justify-content-center">
+    <div class="col-md-10 col-lg-8">
+
+        <h1 class="h2 fw-bold mb-3">Agregar trabajo</h1>
+        <p class="text-body-secondary">
+            Completa los datos de la obra. Los campos con * son obligatorios.
+        </p>
+
+        <div class="card border-0 shadow-sm">
+            <div class="card-body p-4">
+
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+
+                    {% include "componentes/campos_formulario.html" %}
+
+                    <div class="d-flex gap-2 flex-wrap mt-4">
+                        <button type="submit" class="btn btn-success">
+                            Guardar trabajo
+                        </button>
+
+                        <a href="{% url 'panel_trabajos' %}" class="btn btn-outline-secondary">
+                            Cancelar
+                        </a>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}

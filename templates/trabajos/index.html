@@ -1,0 +1,106 @@
+{% extends "base.html" %}
+
+{% block titulo %}Administrar trabajos - Alumcris{% endblock %}
+
+{% block contenido %}
+
+<div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-4">
+    <div>
+        <h1 class="fw-bold">Trabajos realizados</h1>
+        <p class="text-body-secondary mb-0">
+            Gestiona las obras que aparecen en la galería y en el carrusel del inicio.
+        </p>
+    </div>
+
+    <div class="d-flex gap-2 flex-wrap">
+        <a href="{% url 'crear_trabajo' %}" class="btn btn-success">
+            Agregar trabajo
+        </a>
+
+        <a href="{% url 'panel' %}" class="btn btn-outline-secondary">
+            Volver al panel
+        </a>
+    </div>
+</div>
+
+<div class="table-responsive bg-white rounded shadow-sm">
+    <table class="table table-bordered table-hover align-middle mb-0">
+        <thead class="table-dark">
+            <tr>
+                <th scope="col">Portada</th>
+                <th scope="col">Título</th>
+                <th scope="col">Tipo</th>
+                <th scope="col">Comuna</th>
+                <th scope="col">Fecha</th>
+                <th scope="col">Fotos</th>
+                <th scope="col">Destacado</th>
+                <th scope="col">Publicado</th>
+                <th scope="col">Acciones</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for trabajo in trabajos %}
+                <tr>
+                    <td>
+                        {% if trabajo.portada %}
+                            <img
+                                src="{{ trabajo.portada.imagen.url }}"
+                                class="rounded object-fit-cover"
+                                width="80"
+                                height="60"
+                                alt="{{ trabajo.titulo }}"
+                                loading="lazy"
+                            >
+                        {% else %}
+                            Sin fotos
+                        {% endif %}
+                    </td>
+                    <td>{{ trabajo.titulo }}</td>
+                    <td>{{ trabajo.get_tipo_display }}</td>
+                    <td>{{ trabajo.comuna }}</td>
+                    <td>{{ trabajo.fecha|date:"d-m-Y" }}</td>
+                    <td>{{ trabajo.fotos.all|length }}</td>
+                    <td>
+                        {% if trabajo.destacado %}
+                            <span class="badge text-bg-primary">Sí</span>
+                        {% else %}
+                            <span class="badge text-bg-secondary">No</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if trabajo.publicado %}
+                            <span class="badge text-bg-success">Sí</span>
+                        {% else %}
+                            <span class="badge text-bg-secondary">No</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        <div class="d-flex gap-2 flex-wrap">
+                            <a
+                                href="{% url 'editar_trabajo' trabajo.id %}"
+                                class="btn btn-warning btn-sm"
+                            >
+                                Editar
+                            </a>
+                            <a
+                                href="{% url 'eliminar_trabajo' trabajo.id %}"
+                                class="btn btn-danger btn-sm"
+                            >
+                                Eliminar
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="9" class="text-center p-4">
+                        Aún no hay trabajos registrados.
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}

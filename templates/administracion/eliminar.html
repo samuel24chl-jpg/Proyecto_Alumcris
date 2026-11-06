@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+
+{% block titulo %}Eliminar producto - Alumcris{% endblock %}
+
+{% block contenido %}
+
+<div class="row justify-content-center">
+    <div class="col-md-9 col-lg-7">
+
+        <div class="card border-danger shadow-sm">
+            <div class="card-body p-4">
+
+                <h1 class="h3 text-danger fw-bold">Eliminar producto</h1>
+
+                <div class="alert alert-warning mt-3">
+                    ¿Confirmas que deseas eliminar este producto?
+                </div>
+
+                <h2 class="h5">{{ producto.nombre }}</h2>
+
+                {% if producto.imagen %}
+                    <img
+                        src="{{ producto.imagen.url }}"
+                        class="img-fluid rounded my-3"
+                        width="240"
+                        alt="{{ producto.nombre }}"
+                    >
+                {% endif %}
+
+                <p><strong>Material:</strong> {{ producto.material }}</p>
+                <p><strong>Tipo:</strong> {{ producto.tipo }}</p>
+
+                <p class="text-danger">
+                    Esta acción eliminará el producto, su imagen y las
+                    cotizaciones asociadas. No se puede deshacer desde el panel.
+                </p>
+
+                <form method="post">
+                    {% csrf_token %}
+
+                    <div class="d-flex gap-2 flex-wrap">
+                        <button type="submit" class="btn btn-danger">
+                            Sí, eliminar producto
+                        </button>
+
+                        <a href="{% url 'panel' %}" class="btn btn-outline-secondary">
+                            Cancelar
+                        </a>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}

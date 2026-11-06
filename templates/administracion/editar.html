@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block titulo %}Editar producto - Alumcris{% endblock %}
+
+{% block contenido %}
+
+<div class="row justify-content-center">
+    <div class="col-md-10 col-lg-8">
+
+        <h1 class="h2 fw-bold mb-3">Editar producto</h1>
+        <p class="text-body-secondary">{{ producto.nombre }}</p>
+
+        <div class="card border-0 shadow-sm">
+            <div class="card-body p-4">
+
+                {% if producto.imagen %}
+                    <div class="mb-4">
+                        <h2 class="h6">Imagen actual</h2>
+                        <img
+                            src="{{ producto.imagen.url }}"
+                            class="img-fluid rounded"
+                            width="240"
+                            alt="{{ producto.nombre }}"
+                        >
+                    </div>
+                {% endif %}
+
+                <p class="text-body-secondary small">
+                    Si no seleccionas una nueva imagen, se conservará la actual.
+                    Los campos con * son obligatorios.
+                </p>
+
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+
+                    {% include "componentes/campos_formulario.html" %}
+
+                    <div class="d-flex gap-2 flex-wrap mt-4">
+                        <button type="submit" class="btn btn-primary">
+                            Guardar cambios
+                        </button>
+
+                        <a href="{% url 'panel' %}" class="btn btn-outline-secondary">
+                            Cancelar
+                        </a>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}

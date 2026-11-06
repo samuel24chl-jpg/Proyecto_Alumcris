@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block titulo %}Solicitud registrada - Alumcris{% endblock %}
+
+{% block contenido %}
+
+<div class="row justify-content-center my-5">
+    <div class="col-md-9 col-lg-7">
+
+        <div class="card border-0 shadow-sm text-center">
+            <div class="card-body p-4 p-md-5">
+
+                <h1 class="h2 text-success fw-bold">
+                    Solicitud registrada
+                </h1>
+
+                <p class="lead mt-3">
+                    Tu solicitud de cotización fue enviada correctamente.
+                </p>
+
+                <p class="text-body-secondary">
+                    Quedó pendiente de revisión por parte de la administración.
+                </p>
+
+                <div class="d-flex justify-content-center gap-2 flex-wrap mt-4">
+                    <a href="{% url 'catalogo' %}" class="btn btn-primary">
+                        Ver productos
+                    </a>
+
+                    <a href="{% url 'inicio' %}" class="btn btn-outline-secondary">
+                        Volver al inicio
+                    </a>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}

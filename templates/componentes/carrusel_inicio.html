@@ -1,0 +1,104 @@
+<section
+    id="carruselInicio"
+    class="carousel slide carrusel-alumcris carrusel-hero"
+    aria-label="Trabajos destacados de Alumcris"
+    {% if destacados|length > 1 %}data-carrusel-automatico{% endif %}
+>
+    <h1 class="visually-hidden">
+        Alumcris: fabricación e instalación de ventanas de aluminio y PVC,
+        puertas y soluciones de vidrio
+    </h1>
+
+    <div class="carousel-inner">
+        {% for trabajo in destacados %}
+            <div class="carousel-item{% if forloop.first %} active{% endif %}">
+                <img
+                    src="{{ trabajo.portada.imagen.url }}"
+                    class="carrusel-hero__imagen"
+                    alt="Foto del trabajo: {{ trabajo.titulo }}"
+                    fetchpriority="{% if forloop.first %}high{% else %}low{% endif %}"
+                >
+
+                <div class="carrusel-hero__capa"></div>
+
+                <div class="container carrusel-hero__contenido">
+                    <div class="carrusel-hero__texto">
+                        <span class="carrusel-hero__etiqueta">
+                            {{ trabajo.get_tipo_display }} · {{ trabajo.get_material_display }}
+                        </span>
+
+                        <h2 class="display-5 fw-bold">{{ trabajo.titulo }}</h2>
+
+                        <p class="lead">Realizado en {{ trabajo.comuna }}</p>
+
+                        <div class="d-flex flex-wrap gap-2">
+                            <a
+                                href="{% url 'detalle_trabajo' trabajo.id %}"
+                                class="btn btn-light btn-lg"
+                            >
+                                Ver trabajo
+                            </a>
+
+                            <a
+                                href="{% url 'crear_cotizacion' %}{% if trabajo.producto_id %}?producto={{ trabajo.producto_id }}{% endif %}"
+                                class="btn btn-primary btn-lg"
+                            >
+                                Solicitar cotización
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+    {% if destacados|length > 1 %}
+        <button
+            class="carousel-control-prev"
+            type="button"
+            data-bs-target="#carruselInicio"
+            data-bs-slide="prev"
+            aria-label="Diapositiva anterior"
+        >
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        </button>
+
+        <button
+            class="carousel-control-next"
+            type="button"
+            data-bs-target="#carruselInicio"
+            data-bs-slide="next"
+            aria-label="Diapositiva siguiente"
+        >
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        </button>
+
+        <button
+            class="carrusel-hero__pausa"
+            type="button"
+            data-carrusel-pausa
+            aria-label="Pausar carrusel"
+        >
+            <svg data-icono-pausa width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+                <rect x="3" y="2" width="4" height="12" rx="1"></rect>
+                <rect x="9" y="2" width="4" height="12" rx="1"></rect>
+            </svg>
+
+            <svg data-icono-reanudar hidden width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+                <path d="M4 2.5v11a.5.5 0 0 0 .77.42l8.5-5.5a.5.5 0 0 0 0-.84l-8.5-5.5A.5.5 0 0 0 4 2.5z"></path>
+            </svg>
+        </button>
+
+        <div class="carousel-indicators">
+            {% for trabajo in destacados %}
+                <button
+                    type="button"
+                    data-bs-target="#carruselInicio"
+                    data-bs-slide-to="{{ forloop.counter0 }}"
+                    {% if forloop.first %}class="active" aria-current="true"{% endif %}
+                    aria-label="Ir a la diapositiva {{ forloop.counter }}"
+                ></button>
+            {% endfor %}
+        </div>
+    {% endif %}
+</section>

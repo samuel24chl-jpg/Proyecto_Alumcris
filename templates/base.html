@@ -1,0 +1,221 @@
+{% load static %}<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>{% block titulo %}Alumcris{% endblock %}</title>
+
+    <link rel="icon" href="{% static 'favicon.svg' %}" type="image/svg+xml">
+    <link rel="icon" href="{% static 'favicon.png' %}" type="image/png" sizes="64x64">
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+
+    <link href="{% static 'css/alumcris.css' %}" rel="stylesheet">
+</head>
+
+<body class="bg-light text-dark d-flex flex-column min-vh-100">
+
+    <nav class="navbar navbar-expand-lg bg-dark navbar-dark py-3">
+        <div class="container">
+
+            <a
+                class="navbar-brand fw-bold fs-3"
+                href="{% url 'inicio' %}"
+            >
+                ALUMCRIS
+            </a>
+
+            <button
+                class="navbar-toggler"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#menuPrincipal"
+                aria-controls="menuPrincipal"
+                aria-expanded="false"
+                aria-label="Abrir menú"
+            >
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="menuPrincipal">
+                <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-2">
+
+                    <li class="nav-item">
+                        <a
+                            class="nav-link text-white"
+                            href="{% url 'inicio' %}"
+                        >
+                            Inicio
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a
+                            class="nav-link text-white"
+                            href="{% url 'catalogo' %}"
+                        >
+                            Productos
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a
+                            class="nav-link text-white"
+                            href="{% url 'galeria' %}"
+                        >
+                            Trabajos
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a
+                            class="nav-link text-white"
+                            href="{% url 'crear_cotizacion' %}"
+                        >
+                            Cotizaciones
+                        </a>
+                    </li>
+
+                    {% if user.is_authenticated and user.is_active and user.is_staff %}
+
+                        <li class="nav-item dropdown">
+                            <button
+                                class="nav-link dropdown-toggle text-white"
+                                type="button"
+                                data-bs-toggle="dropdown"
+                                aria-expanded="false"
+                            >
+                                Administrar
+                            </button>
+
+                            <ul class="dropdown-menu dropdown-menu-end">
+                                <li>
+                                    <a
+                                        class="dropdown-item"
+                                        href="{% url 'panel' %}"
+                                    >
+                                        Productos
+                                    </a>
+                                </li>
+
+                                <li>
+                                    <a
+                                        class="dropdown-item"
+                                        href="{% url 'panel_cotizaciones' %}"
+                                    >
+                                        Cotizaciones
+                                    </a>
+                                </li>
+
+                                <li>
+                                    <a
+                                        class="dropdown-item"
+                                        href="{% url 'panel_trabajos' %}"
+                                    >
+                                        Trabajos
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+
+                        <li class="nav-item mt-2 mt-lg-0">
+                            <form
+                                method="post"
+                                action="{% url 'salir' %}"
+                                class="m-0"
+                            >
+                                {% csrf_token %}
+
+                                <button
+                                    type="submit"
+                                    class="btn btn-outline-light"
+                                >
+                                    Cerrar sesión
+                                </button>
+                            </form>
+                        </li>
+
+                    {% else %}
+
+                        <li class="nav-item mt-2 mt-lg-0">
+                            <a
+                                class="btn btn-outline-light"
+                                href="{% url 'ingresar' %}"
+                            >
+                                Acceso administrador
+                            </a>
+                        </li>
+
+                    {% endif %}
+
+                </ul>
+            </div>
+
+        </div>
+    </nav>
+
+    <main class="flex-grow-1">
+
+        {% block hero %}
+        {% endblock %}
+
+        <div class="container py-4">
+
+            {% block contenido %}
+            {% endblock %}
+
+        </div>
+
+    </main>
+
+    <footer class="bg-dark text-white py-4 mt-5">
+        <div class="container">
+            <div class="row align-items-center g-3">
+
+                <div class="col-md-6 text-center text-md-start">
+
+                    <h4 class="fw-bold">
+                        ALUMCRIS
+                    </h4>
+
+                    <p class="text-white-50 mb-0">
+                        Fabricación e instalación de ventanas,
+                        puertas y soluciones de vidrio.
+                    </p>
+
+                </div>
+
+                <div class="col-md-6 text-center text-md-end">
+
+                    <p class="text-white-50 mb-2">
+                        Calidad y compromiso en cada proyecto.
+                    </p>
+
+                    <p class="mb-0">
+                        &copy; 2026 Alumcris
+                    </p>
+
+                </div>
+
+            </div>
+        </div>
+    </footer>
+
+    <script
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+    ></script>
+
+    {% block scripts %}
+    {% endblock %}
+
+</body>
+</html>

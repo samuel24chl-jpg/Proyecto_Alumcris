@@ -1,0 +1,58 @@
+# Traducciones propias de Alumcris para textos que Django 6.1 aún no traduce.
+# Están escritas de usted, igual que el resto del admin de Django en español.
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: es\n"
+"Plural-Forms: nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? "
+"1 : 2;\n"
+
+msgid "- Select an option -"
+msgstr "- Seleccione una opción -"
+
+msgid "“%(value)s” is not a valid binary value."
+msgstr "“%(value)s” no es un valor binario válido."
+
+msgid "No %s matches the given query."
+msgstr "Ningún %s coincide con la consulta."
+
+msgid "The app \"%s\" could not be found."
+msgstr "No se encontró la aplicación \"%s\"."
+
+msgid "…and %(count)d more object."
+msgid_plural "…and %(count)d more objects."
+msgstr[0] "…y %(count)d objeto más."
+msgstr[1] "…y %(count)d objetos más."
+msgstr[2] "…y %(count)d objetos más."
+
+msgid "Run"
+msgstr "Ejecutar"
+
+msgid "Filter by %(field_name)s"
+msgstr "Filtrar por %(field_name)s"
+
+msgid ""
+"Deleting the %(object_name)s “%(escaped_object)s” would require deleting the "
+"following protected related objects:"
+msgstr ""
+"Borrar %(object_name)s “%(escaped_object)s” requeriría borrar los siguientes "
+"objetos relacionados protegidos:"
+
+msgid ""
+"Are you sure you want to delete the %(object_name)s “%(escaped_object)s”? "
+"All of the following related items will be deleted:"
+msgstr ""
+"¿Está seguro de que quiere borrar %(object_name)s “%(escaped_object)s”? Se "
+"borrarán todos los siguientes elementos relacionados:"
+
+msgid "Pagination %(name)s entries"
+msgstr "Paginación de entradas de %(name)s"
+
+msgid "Pagination %(name)s"
+msgstr "Paginación de %(name)s"
+
+msgid "Search %(name)s"
+msgstr "Buscar %(name)s"
+
+msgid "Logout"
+msgstr "Cerrar sesión"

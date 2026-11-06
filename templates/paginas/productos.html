@@ -1,0 +1,153 @@
+
+{% extends "base.html" %}
+
+{% block titulo %}Productos - Alumcris{% endblock %}
+
+{% block contenido %}
+
+<style>
+    .titulo-productos {
+        color: #17324d;
+        font-weight: bold;
+    }
+
+    .tarjeta-producto {
+        border: none;
+        border-radius: 10px;
+        overflow: hidden;
+        height: 100%;
+        box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+    }
+
+    .imagen-producto {
+        height: 230px;
+        object-fit: cover;
+    }
+
+    .sin-imagen {
+        height: 230px;
+        background-color: #e9ecef;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #6c757d;
+    }
+
+    .boton-producto {
+        background-color: #1769c2;
+        color: white;
+    }
+
+    .boton-producto:hover {
+        background-color: #17324d;
+        color: white;
+    }
+</style>
+
+
+<!-- TITULO DEL CATALOGO -->
+<section class="text-center mb-5">
+
+    <h1 class="titulo-productos">
+        Nuestros productos
+    </h1>
+
+    <p class="lead">
+        Conoce nuestras soluciones en ventanas de PVC,
+        aluminio y estructuras de vidrio.
+    </p>
+
+</section>
+
+
+<!-- LISTADO DE PRODUCTOS -->
+<div class="row g-4 mb-5">
+
+    {% for producto in productos %}
+
+    <div class="col-md-6 col-lg-4">
+
+        <div class="card tarjeta-producto tarjeta-animada">
+
+            <!-- Imagen del producto -->
+            {% if producto.imagen %}
+
+            <div class="overflow-hidden">
+                <img src="{{ producto.imagen.url }}"
+                     class="card-img-top imagen-producto"
+                     alt="{{ producto.nombre }}">
+            </div>
+
+            {% else %}
+
+            <div class="sin-imagen">
+                Imagen no disponible
+            </div>
+
+            {% endif %}
+
+
+            <!-- Informacion -->
+            <div class="card-body d-flex flex-column">
+
+                <h5 class="card-title">
+                    {{ producto.nombre }}
+                </h5>
+
+                <p class="card-text">
+                    <strong>Material:</strong>
+                    {{ producto.material }}
+                </p>
+
+                <p class="card-text">
+                    <strong>Tipo:</strong>
+                    {{ producto.tipo }}
+                </p>
+
+                <p class="card-text">
+                    {{ producto.descripcion }}
+                </p>
+
+                <a href="{% url 'detalle_producto' producto.id %}"
+                   class="btn boton-producto mt-auto">
+                    Ver producto
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    {% empty %}
+
+    <div class="col-12 text-center">
+
+        <div class="alert alert-info">
+            Actualmente no hay productos publicados.
+        </div>
+
+    </div>
+
+    {% endfor %}
+
+</div>
+
+
+<!-- SECCION DE CONTACTO -->
+<section class="bg-white p-4 rounded text-center mb-4">
+
+    <h3 class="titulo-productos">
+        ¿Necesitas una ventana a medida?
+    </h3>
+
+    <p>
+        Contáctanos para conocer nuestras soluciones
+        y solicitar una cotización personalizada.
+    </p>
+
+
+
+</section>
+
+{% endblock %}

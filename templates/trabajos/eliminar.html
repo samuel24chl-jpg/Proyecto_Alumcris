@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block titulo %}Eliminar trabajo - Alumcris{% endblock %}
+
+{% block contenido %}
+
+<div class="row justify-content-center">
+    <div class="col-md-9 col-lg-7">
+
+        <div class="card border-danger shadow-sm">
+            <div class="card-body p-4">
+
+                <h1 class="h3 text-danger fw-bold">Eliminar trabajo</h1>
+
+                <div class="alert alert-warning mt-3">
+                    ¿Confirmas que deseas eliminar este trabajo?
+                </div>
+
+                <h2 class="h5">{{ trabajo.titulo }}</h2>
+
+                {% if trabajo.portada %}
+                    <img
+                        src="{{ trabajo.portada.imagen.url }}"
+                        class="img-fluid rounded my-3"
+                        width="240"
+                        alt="{{ trabajo.titulo }}"
+                    >
+                {% endif %}
+
+                <p><strong>Comuna:</strong> {{ trabajo.comuna }}</p>
+
+                <p class="text-danger">
+                    Esta acción eliminará el trabajo y todas sus fotos.
+                    No se puede deshacer desde el panel.
+                </p>
+
+                <form method="post">
+                    {% csrf_token %}
+
+                    <div class="d-flex gap-2 flex-wrap">
+                        <button type="submit" class="btn btn-danger">
+                            Sí, eliminar trabajo
+                        </button>
+
+                        <a href="{% url 'panel_trabajos' %}" class="btn btn-outline-secondary">
+                            Cancelar
+                        </a>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}

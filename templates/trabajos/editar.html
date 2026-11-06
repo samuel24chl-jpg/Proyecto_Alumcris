@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+
+{% block titulo %}Editar trabajo - Alumcris{% endblock %}
+
+{% block contenido %}
+
+<div class="row justify-content-center">
+    <div class="col-md-10 col-lg-8">
+
+        <h1 class="h2 fw-bold mb-3">Editar trabajo</h1>
+        <p class="text-body-secondary">{{ trabajo.titulo }}</p>
+
+        <div class="card border-0 shadow-sm mb-4">
+            <div class="card-body p-4">
+
+                <h2 class="h5">Fotos actuales</h2>
+                <p class="text-body-secondary small">
+                    La primera foto es la portada. Un trabajo debe conservar al menos una foto.
+                </p>
+
+                <div class="row g-3">
+                    {% for foto in fotos %}
+                        <div class="col-sm-6 col-md-4">
+                            <div class="border rounded overflow-hidden h-100 d-flex flex-column">
+                                <div class="ratio ratio-4x3">
+                                    <img
+                                        src="{{ foto.imagen.url }}"
+                                        class="object-fit-cover"
+                                        alt="{{ trabajo.titulo }}, foto {{ forloop.counter }}"
+                                        loading="lazy"
+                                    >
+                                </div>
+
+                                <div class="p-2 d-flex flex-column gap-2">
+                                    {% if forloop.first %}
+                                        <span class="badge text-bg-primary align-self-start">Portada</span>
+                                    {% else %}
+                                        <form method="post" action="{% url 'portada_foto_trabajo' foto.id %}">
+                                            {% csrf_token %}
+                                            <button type="submit" class="btn btn-outline-primary btn-sm w-100">
+                                                Usar como portada
+                                            </button>
+                                        </form>
+                                    {% endif %}
+
+                                    {% if fotos|length > 1 %}
+                                        <form method="post" action="{% url 'eliminar_foto_trabajo' foto.id %}">
+                                            {% csrf_token %}
+                                            <button type="submit" class="btn btn-outline-danger btn-sm w-100">
+                                                Eliminar foto
+                                            </button>
+                                        </form>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    {% empty %}
+                        <div class="col-12">
+                            <div class="alert alert-warning mb-0">
+                                Este trabajo no tiene fotos y no se muestra en el sitio.
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+
+            </div>
+        </div>
+
+        <div class="card border-0 shadow-sm">
+            <div class="card-body p-4">
+
+                <p class="text-body-secondary small">
+                    Los campos con * son obligatorios.
+                </p>
+
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+
+                    {% include "componentes/campos_formulario.html" %}
+
+                    <div class="d-flex gap-2 flex-wrap mt-4">
+                        <button type="submit" class="btn btn-primary">
+                            Guardar cambios
+                        </button>
+
+                        <a href="{% url 'panel_trabajos' %}" class="btn btn-outline-secondary">
+                            Cancelar
+                        </a>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}

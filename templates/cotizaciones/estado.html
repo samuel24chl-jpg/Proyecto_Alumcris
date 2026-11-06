@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block titulo %}Cambiar estado - Alumcris{% endblock %}
+
+{% block contenido %}
+
+<div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+
+        <div class="card border-0 shadow-sm">
+            <div class="card-body p-4">
+
+                <h1 class="h3 fw-bold mb-4">Cambiar estado</h1>
+
+                <p><strong>Cotización:</strong> N.º {{ cotizacion.id }}</p>
+                <p><strong>Cliente:</strong> {{ cotizacion.nombre_cliente }}</p>
+                <p><strong>Producto:</strong> {{ cotizacion.producto.nombre }}</p>
+                <p><strong>Estado actual:</strong> {{ cotizacion.estado }}</p>
+
+                <hr>
+
+                <form method="post">
+                    {% csrf_token %}
+
+                    {% include "componentes/campos_formulario.html" %}
+
+                    <div class="d-flex gap-2 flex-wrap mt-4">
+                        <button type="submit" class="btn btn-primary">
+                            Guardar estado
+                        </button>
+
+                        <a
+                            href="{% url 'panel_cotizaciones' %}"
+                            class="btn btn-outline-secondary"
+                        >
+                            Cancelar
+                        </a>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}

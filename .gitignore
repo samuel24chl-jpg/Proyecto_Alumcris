@@ -1,0 +1,6 @@
+# Archivos compilados de Python
+__pycache__/
+*.pyc
+
+# Variables de entorno con credenciales
+.env

@@ -1,0 +1,130 @@
+{% extends "base.html" %}
+
+{% block titulo %}Administración - Alumcris{% endblock %}
+
+{% block contenido %}
+
+<div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-4">
+    <div>
+        <h1 class="fw-bold">Panel de administración</h1>
+        <p class="text-body-secondary mb-0">
+            Gestiona los productos, las cotizaciones y los trabajos.
+        </p>
+    </div>
+
+    <a href="{% url 'inicio' %}" class="btn btn-outline-secondary">
+        Volver al inicio
+    </a>
+</div>
+
+<div class="row g-4 mb-4">
+    <div class="col-md-4">
+        <div class="card h-100 border-0 shadow-sm">
+            <div class="card-body p-4">
+                <h2 class="h5">Productos registrados</h2>
+                <p class="display-6 fw-bold">{{ productos|length }}</p>
+                <a href="{% url 'crear_producto' %}" class="btn btn-success">
+                    Agregar producto
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card h-100 border-0 shadow-sm">
+            <div class="card-body p-4">
+                <h2 class="h5">Gestión de cotizaciones</h2>
+                <p>Revisa solicitudes y actualiza su información y estado.</p>
+                <a href="{% url 'panel_cotizaciones' %}" class="btn btn-primary">
+                    Administrar cotizaciones
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card h-100 border-0 shadow-sm">
+            <div class="card-body p-4">
+                <h2 class="h5">Trabajos realizados</h2>
+                <p>Publica obras en la galería y elige las destacadas del inicio.</p>
+                <a href="{% url 'panel_trabajos' %}" class="btn btn-primary">
+                    Administrar trabajos
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<h2 class="h4 mb-3">Listado de productos</h2>
+
+<div class="table-responsive bg-white rounded shadow-sm">
+    <table class="table table-bordered table-hover align-middle mb-0">
+        <thead class="table-dark">
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Imagen</th>
+                <th scope="col">Nombre</th>
+                <th scope="col">Material</th>
+                <th scope="col">Tipo</th>
+                <th scope="col">Publicado</th>
+                <th scope="col">Acciones</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for producto in productos %}
+                <tr>
+                    <td>{{ producto.id }}</td>
+                    <td>
+                        {% if producto.imagen %}
+                            <img
+                                src="{{ producto.imagen.url }}"
+                                class="rounded object-fit-cover"
+                                width="80"
+                                height="60"
+                                alt="{{ producto.nombre }}"
+                                loading="lazy"
+                            >
+                        {% else %}
+                            Sin imagen
+                        {% endif %}
+                    </td>
+                    <td>{{ producto.nombre }}</td>
+                    <td>{{ producto.material }}</td>
+                    <td>{{ producto.tipo }}</td>
+                    <td>
+                        {% if producto.publicado %}
+                            <span class="badge text-bg-success">Sí</span>
+                        {% else %}
+                            <span class="badge text-bg-secondary">No</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        <div class="d-flex gap-2 flex-wrap">
+                            <a
+                                href="{% url 'editar_producto' producto.id %}"
+                                class="btn btn-warning btn-sm"
+                            >
+                                Editar
+                            </a>
+                            <a
+                                href="{% url 'eliminar_producto' producto.id %}"
+                                class="btn btn-danger btn-sm"
+                            >
+                                Eliminar
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="7" class="text-center p-4">
+                        No hay productos registrados.
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}

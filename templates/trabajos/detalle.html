@@ -1,0 +1,110 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block titulo %}{{ trabajo.titulo }} - Alumcris{% endblock %}
+
+{% block contenido %}
+
+<a href="{% url 'galeria' %}" class="btn btn-outline-secondary mb-4">
+    Volver a trabajos
+</a>
+
+<article class="card border-0 shadow-sm overflow-hidden">
+    <div class="row g-0">
+
+        <div class="col-lg-7">
+            {% with fotos=trabajo.fotos.all %}
+                <div
+                    id="carruselFotos"
+                    class="carousel slide carrusel-alumcris carrusel-fotos"
+                    aria-label="Fotos del trabajo"
+                >
+                    <div class="carousel-inner">
+                        {% for foto in fotos %}
+                            <div class="carousel-item{% if forloop.first %} active{% endif %}">
+                                <img
+                                    src="{{ foto.imagen.url }}"
+                                    class="d-block w-100"
+                                    alt="{{ trabajo.titulo }}, foto {{ forloop.counter }} de {{ fotos|length }}"
+                                >
+                            </div>
+                        {% endfor %}
+                    </div>
+
+                    {% if fotos|length > 1 %}
+                        <button
+                            class="carousel-control-prev"
+                            type="button"
+                            data-bs-target="#carruselFotos"
+                            data-bs-slide="prev"
+                            aria-label="Foto anterior"
+                        >
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        </button>
+
+                        <button
+                            class="carousel-control-next"
+                            type="button"
+                            data-bs-target="#carruselFotos"
+                            data-bs-slide="next"
+                            aria-label="Foto siguiente"
+                        >
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        </button>
+
+                        <div class="carousel-indicators">
+                            {% for foto in fotos %}
+                                <button
+                                    type="button"
+                                    data-bs-target="#carruselFotos"
+                                    data-bs-slide-to="{{ forloop.counter0 }}"
+                                    {% if forloop.first %}class="active" aria-current="true"{% endif %}
+                                    aria-label="Ir a la foto {{ forloop.counter }}"
+                                ></button>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+            {% endwith %}
+        </div>
+
+        <div class="col-lg-5">
+            <div class="card-body p-4 p-lg-5">
+                <h1 class="h2 fw-bold mb-3">{{ trabajo.titulo }}</h1>
+
+                <dl class="row mb-4">
+                    <dt class="col-sm-4">Material</dt>
+                    <dd class="col-sm-8">{{ trabajo.get_material_display }}</dd>
+
+                    <dt class="col-sm-4">Tipo</dt>
+                    <dd class="col-sm-8">{{ trabajo.get_tipo_display }}</dd>
+
+                    <dt class="col-sm-4">Comuna</dt>
+                    <dd class="col-sm-8">{{ trabajo.comuna }}</dd>
+
+                    <dt class="col-sm-4">Fecha</dt>
+                    <dd class="col-sm-8">{{ trabajo.fecha|date:"F Y" }}</dd>
+                </dl>
+
+                <h2 class="h5">Descripción</h2>
+                <div class="mb-4">
+                    {{ trabajo.descripcion|linebreaksbr }}
+                </div>
+
+                <a
+                    href="{% url 'crear_cotizacion' %}{% if trabajo.producto_id %}?producto={{ trabajo.producto_id }}{% endif %}"
+                    class="btn btn-primary btn-lg"
+                >
+                    Solicitar una cotización similar
+                </a>
+            </div>
+        </div>
+
+    </div>
+</article>
+
+{% endblock %}
+
+{% block scripts %}
+    <script src="{% static 'js/carrusel.js' %}"></script>
+{% endblock %}

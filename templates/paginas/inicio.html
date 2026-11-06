@@ -1,0 +1,148 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block titulo %}Inicio - Alumcris{% endblock %}
+
+{% block hero %}
+    {% if destacados %}
+        {% include "componentes/carrusel_inicio.html" %}
+    {% endif %}
+{% endblock %}
+
+{% block contenido %}
+
+{% if not destacados %}
+<section class="bg-primary text-white rounded-3 p-4 p-md-5 text-center mb-5">
+    <h1 class="display-5 fw-bold mb-3">Bienvenidos a Alumcris</h1>
+
+    <p class="lead mb-4">
+        Fabricación e instalación de ventanas de aluminio y PVC,
+        puertas y soluciones de vidrio.
+    </p>
+
+    <div class="d-flex justify-content-center gap-2 flex-wrap">
+        <a href="{% url 'catalogo' %}" class="btn btn-light btn-lg">
+            Ver productos
+        </a>
+        <a href="{% url 'crear_cotizacion' %}" class="btn btn-outline-light btn-lg">
+            Solicitar cotización
+        </a>
+    </div>
+</section>
+{% endif %}
+
+<section class="mb-5">
+    <h2 class="text-center fw-bold mb-4">Nuestros servicios</h2>
+
+    <div class="row g-4">
+        <div class="col-md-4">
+            <div class="card h-100 border-0 shadow-sm">
+                <div class="card-body text-center p-4">
+                    <h3 class="h5 text-primary">Ventanas</h3>
+                    <p class="mb-0">
+                        Ventanas de aluminio y PVC adaptadas a diferentes espacios.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card h-100 border-0 shadow-sm">
+                <div class="card-body text-center p-4">
+                    <h3 class="h5 text-primary">Puertas y vidrios</h3>
+                    <p class="mb-0">
+                        Soluciones para puertas, mamparas, termopaneles
+                        y estructuras de vidrio.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card h-100 border-0 shadow-sm">
+                <div class="card-body text-center p-4">
+                    <h3 class="h5 text-primary">Instalación</h3>
+                    <p class="mb-0">
+                        Instalaciones para proyectos residenciales y comerciales.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="mb-5">
+    <h2 class="text-center fw-bold mb-4">Productos destacados</h2>
+
+    <div class="row g-4">
+        {% for producto in productos %}
+            <div class="col-md-6 col-lg-4">
+                <article class="card h-100 border-0 shadow-sm tarjeta-animada">
+
+                    <div class="ratio ratio-4x3">
+                        {% if producto.imagen %}
+                            <img
+                                src="{{ producto.imagen.url }}"
+                                class="w-100 h-100 object-fit-cover rounded-top"
+                                alt="{{ producto.nombre }}"
+                                loading="lazy"
+                            >
+                        {% else %}
+                            <div class="bg-secondary-subtle d-flex align-items-center justify-content-center">
+                                Imagen no disponible
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="card-body d-flex flex-column">
+                        <h3 class="h5 card-title">{{ producto.nombre }}</h3>
+
+                        <p class="text-body-secondary">
+                            {{ producto.material }} · {{ producto.tipo }}
+                        </p>
+
+                        <p>{{ producto.descripcion|truncatewords:20 }}</p>
+
+                        <a
+                            href="{% url 'detalle_producto' producto.id %}"
+                            class="btn btn-primary mt-auto"
+                        >
+                            Ver detalles
+                        </a>
+                    </div>
+
+                </article>
+            </div>
+        {% empty %}
+            <div class="col-12">
+                <div class="alert alert-info text-center">
+                    No hay productos destacados disponibles.
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+    <div class="text-center mt-4">
+        <a href="{% url 'catalogo' %}" class="btn btn-outline-primary">
+            Ver todos los productos
+        </a>
+    </div>
+</section>
+
+<section class="bg-white rounded-3 shadow-sm p-4 text-center">
+    <h2 class="h3 fw-bold">¿Necesitas una cotización personalizada?</h2>
+    <p>
+        Selecciona un producto e indica sus medidas y la cantidad requerida.
+    </p>
+    <a href="{% url 'crear_cotizacion' %}" class="btn btn-primary">
+        Solicitar cotización
+    </a>
+</section>
+
+{% endblock %}
+
+{% block scripts %}
+    {% if destacados %}
+        <script src="{% static 'js/carrusel.js' %}"></script>
+    {% endif %}
+{% endblock %}

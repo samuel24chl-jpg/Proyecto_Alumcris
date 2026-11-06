@@ -1,0 +1,144 @@
+{% extends "base.html" %}
+
+{% block titulo %}Trabajos - Alumcris{% endblock %}
+
+{% block contenido %}
+
+<section class="text-center mb-4">
+    <h1 class="fw-bold">Nuestros trabajos</h1>
+    <p class="lead">
+        Conoce obras reales de ventanas, puertas y soluciones de vidrio
+        que hemos instalado.
+    </p>
+</section>
+
+{% if pagina.paginator.count or filtros %}
+    <form method="get" class="card border-0 shadow-sm mb-4">
+        <div class="card-body">
+            <div class="row g-3 align-items-end">
+
+                <div class="col-sm-6 col-lg-4">
+                    <label class="form-label" for="filtro-material">Material</label>
+                    <select class="form-select" id="filtro-material" name="material">
+                        <option value="">Todos</option>
+                        {% for valor, etiqueta in materiales %}
+                            <option value="{{ valor }}"{% if valor == material %} selected{% endif %}>{{ etiqueta }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="col-sm-6 col-lg-4">
+                    <label class="form-label" for="filtro-tipo">Tipo</label>
+                    <select class="form-select" id="filtro-tipo" name="tipo">
+                        <option value="">Todos</option>
+                        {% for valor, etiqueta in tipos %}
+                            <option value="{{ valor }}"{% if valor == tipo %} selected{% endif %}>{{ etiqueta }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="col-lg-4 d-flex gap-2">
+                    <button type="submit" class="btn btn-primary flex-grow-1">
+                        Filtrar
+                    </button>
+
+                    {% if filtros %}
+                        <a href="{% url 'galeria' %}" class="btn btn-outline-secondary">
+                            Limpiar
+                        </a>
+                    {% endif %}
+                </div>
+
+            </div>
+        </div>
+    </form>
+{% endif %}
+
+<div class="row g-4 mb-4">
+    {% for trabajo in pagina %}
+        <div class="col-md-6 col-lg-4 aparecer-subiendo" style="--orden: {{ forloop.counter0 }}">
+            <article class="card h-100 border-0 shadow-sm tarjeta-animada">
+
+                <div class="position-relative">
+                    <div class="ratio ratio-4x3">
+                        <img
+                            src="{{ trabajo.portada.imagen.url }}"
+                            class="object-fit-cover"
+                            alt="{{ trabajo.titulo }}"
+                            loading="lazy"
+                        >
+                    </div>
+
+                    <span class="badge rounded-pill text-bg-primary position-absolute top-0 start-0 m-3">
+                        {{ trabajo.get_tipo_display }}
+                    </span>
+                </div>
+
+                <div class="card-body d-flex flex-column">
+                    <h2 class="h5 card-title">{{ trabajo.titulo }}</h2>
+
+                    <p class="text-body-secondary">
+                        {{ trabajo.comuna }} · {{ trabajo.fecha|date:"F Y" }}
+                    </p>
+
+                    <a
+                        href="{% url 'detalle_trabajo' trabajo.id %}"
+                        class="btn btn-outline-primary mt-auto"
+                    >
+                        Ver trabajo
+                    </a>
+                </div>
+
+            </article>
+        </div>
+    {% empty %}
+        <div class="col-12">
+            <div class="alert alert-info text-center">
+                {% if filtros %}
+                    No hay trabajos con estos filtros.
+                    <a href="{% url 'galeria' %}" class="alert-link">Ver todos los trabajos</a>
+                {% else %}
+                    Pronto publicaremos nuestros trabajos.
+                {% endif %}
+            </div>
+        </div>
+    {% endfor %}
+</div>
+
+{% if pagina.has_other_pages %}
+    <nav aria-label="Páginas de trabajos">
+        <ul class="pagination justify-content-center flex-wrap">
+
+            <li class="page-item{% if not pagina.has_previous %} disabled{% endif %}">
+                {% if pagina.has_previous %}
+                    <a class="page-link" href="?{% if filtros %}{{ filtros }}&amp;{% endif %}pagina={{ pagina.previous_page_number }}">Anterior</a>
+                {% else %}
+                    <span class="page-link">Anterior</span>
+                {% endif %}
+            </li>
+
+            {% for numero in pagina.paginator.page_range %}
+                {% if numero == pagina.number %}
+                    <li class="page-item active" aria-current="page">
+                        <span class="page-link">{{ numero }}</span>
+                    </li>
+                {% else %}
+                    <li class="page-item">
+                        <a class="page-link" href="?{% if filtros %}{{ filtros }}&amp;{% endif %}pagina={{ numero }}">{{ numero }}</a>
+                    </li>
+                {% endif %}
+            {% endfor %}
+
+            <li class="page-item{% if not pagina.has_next %} disabled{% endif %}">
+                {% if pagina.has_next %}
+                    <a class="page-link" href="?{% if filtros %}{{ filtros }}&amp;{% endif %}pagina={{ pagina.next_page_number }}">Siguiente</a>
+                {% else %}
+                    <span class="page-link">Siguiente</span>
+                {% endif %}
+            </li>
+
+        </ul>
+    </nav>
+{% endif %}
+
+{% endblock %}
