@@ -1,0 +1,30 @@
+# Configuración de coverage.py: mide qué parte del código ejecutan los tests.
+#
+# Uso (desde la carpeta del proyecto):
+#   python -m coverage run manage.py test    -> ejecuta los tests midiendo
+#   python -m coverage report                -> muestra el resumen en consola
+#   python -m coverage html                  -> genera htmlcov/index.html
+
+[run]
+source = .
+# Mide también las ramas (cada if/else), no solo las líneas.
+branch = True
+omit =
+    # Se excluye lo que no es código de la aplicación:
+    # el script de arranque y los puntos de entrada del servidor,
+    manage.py
+    alumcris/asgi.py
+    alumcris/wsgi.py
+    # las migraciones, que Django genera automáticamente,
+    */migrations/*
+    # y los propios tests.
+    */tests.py
+    */test_*.py
+
+[report]
+show_missing = True
+precision = 1
+
+[html]
+directory = htmlcov
+title = Cobertura de pruebas - Alumcris

@@ -1,3 +1,7 @@
+# Resultados de coverage (se regeneran cada vez que se miden los tests)
+.coverage
+htmlcov/
+
 # Archivos compilados de Python
 __pycache__/
 *.pyc
